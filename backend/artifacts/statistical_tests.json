@@ -1,0 +1,92 @@
+{
+  "spearman_experience_salary": {
+    "correlation_coefficient": 0.7145,
+    "p_value": 0.0,
+    "statistically_significant": true,
+    "interpretation": "Moderate-to-strong positive monotonic relationship between experience and compensation."
+  },
+  "kruskal_wallis_roles": {
+    "h_statistic": 2193.9,
+    "p_value": 0.0,
+    "evaluated_roles": [
+      "Other",
+      "Sales & Business Development",
+      "Software Engineering",
+      "Human Resources",
+      "Operations & Support",
+      "Finance & Accounting",
+      "Marketing & Content",
+      "Consulting & Business Advisory"
+    ],
+    "statistically_significant": true,
+    "interpretation": "Highly significant variance in salary medians across role families."
+  },
+  "mann_whitney_work_mode": {
+    "u_statistic": 14116688.5,
+    "p_value": 2.093845111033169e-13,
+    "remote_sample_size": 841,
+    "onsite_sample_size": 29237,
+    "remote_median_lpa": 5.5,
+    "onsite_median_lpa": 4.0,
+    "statistically_significant": true,
+    "interpretation": "Remote roles exhibit a higher disclosed median (\u20b95.50 LPA vs \u20b94.00 LPA)."
+  },
+  "bootstrap_median_confidence_intervals": {
+    "Other": {
+      "sample_size": 10111,
+      "median_inr": 412500,
+      "median_lpa": 4.12,
+      "ci_95_lower_lpa": 4.0,
+      "ci_95_upper_lpa": 4.25
+    },
+    "Sales & Business Development": {
+      "sample_size": 6536,
+      "median_inr": 375000,
+      "median_lpa": 3.75,
+      "ci_95_lower_lpa": 3.62,
+      "ci_95_upper_lpa": 3.75
+    },
+    "Software Engineering": {
+      "sample_size": 5029,
+      "median_inr": 700000,
+      "median_lpa": 7.0,
+      "ci_95_lower_lpa": 6.5,
+      "ci_95_upper_lpa": 7.5
+    },
+    "Human Resources": {
+      "sample_size": 2821,
+      "median_inr": 375000,
+      "median_lpa": 3.75,
+      "ci_95_lower_lpa": 3.75,
+      "ci_95_upper_lpa": 3.88
+    },
+    "Operations & Support": {
+      "sample_size": 2248,
+      "median_inr": 350000,
+      "median_lpa": 3.5,
+      "ci_95_lower_lpa": 3.38,
+      "ci_95_upper_lpa": 3.5
+    },
+    "Finance & Accounting": {
+      "sample_size": 1366,
+      "median_inr": 425000,
+      "median_lpa": 4.25,
+      "ci_95_lower_lpa": 4.1,
+      "ci_95_upper_lpa": 4.5
+    },
+    "Marketing & Content": {
+      "sample_size": 947,
+      "median_inr": 400000,
+      "median_lpa": 4.0,
+      "ci_95_lower_lpa": 3.88,
+      "ci_95_upper_lpa": 4.25
+    },
+    "Consulting & Business Advisory": {
+      "sample_size": 748,
+      "median_inr": 600000,
+      "median_lpa": 6.0,
+      "ci_95_lower_lpa": 5.5,
+      "ci_95_upper_lpa": 7.25
+    }
+  }
+}

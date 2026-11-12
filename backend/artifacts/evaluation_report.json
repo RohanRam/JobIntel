@@ -1,0 +1,115 @@
+{
+  "model_name": "Indian Job Market Salary Regressor",
+  "model_version": "1.0.0",
+  "model_type": "HistGradientBoostingRegressor",
+  "target": "salary_midpoint_inr_annual",
+  "currency": "INR",
+  "period": "annual",
+  "training_date": "2026-11-11",
+  "train_sample_size": 25520,
+  "test_sample_size": 6380,
+  "features": {
+    "categorical": [
+      "role_family",
+      "city",
+      "work_mode"
+    ],
+    "numeric": [
+      "experience_years",
+      "min_experience_years",
+      "max_experience_years"
+    ],
+    "text": "skills_text"
+  },
+  "metrics": {
+    "mae_inr": 294336.07,
+    "mae_lpa": 2.94,
+    "median_absolute_error_inr": 104857.35,
+    "median_absolute_error_lpa": 1.05,
+    "rmse_inr": 735512.51,
+    "rmse_lpa": 7.36,
+    "r2": 0.4071
+  },
+  "baseline_metrics": {
+    "median_baseline_mae_inr": 481856.03,
+    "ridge_mae_inr": 314523.02
+  },
+  "prediction_interval": {
+    "confidence_level": "80%",
+    "method": "empirical_residual_quantiles",
+    "lower_pct_bound": -0.4082,
+    "upper_pct_bound": 0.7276
+  },
+  "role_family_performance": {
+    "Consulting & Business Advisory": {
+      "sample_count": 167,
+      "mae_inr": 767169.25,
+      "mae_lpa": 7.67
+    },
+    "Data Analytics": {
+      "sample_count": 151,
+      "mae_inr": 336975.14,
+      "mae_lpa": 3.37
+    },
+    "Data Science": {
+      "sample_count": 24,
+      "mae_inr": 586931.66,
+      "mae_lpa": 5.87
+    },
+    "Design": {
+      "sample_count": 50,
+      "mae_inr": 157327.48,
+      "mae_lpa": 1.57
+    },
+    "DevOps & Cloud": {
+      "sample_count": 76,
+      "mae_inr": 482514.7,
+      "mae_lpa": 4.83
+    },
+    "Finance & Accounting": {
+      "sample_count": 275,
+      "mae_inr": 382217.71,
+      "mae_lpa": 3.82
+    },
+    "Human Resources": {
+      "sample_count": 593,
+      "mae_inr": 182335.91,
+      "mae_lpa": 1.82
+    },
+    "Marketing & Content": {
+      "sample_count": 195,
+      "mae_inr": 225284.27,
+      "mae_lpa": 2.25
+    },
+    "Operations & Support": {
+      "sample_count": 423,
+      "mae_inr": 137588.78,
+      "mae_lpa": 1.38
+    },
+    "Other": {
+      "sample_count": 2036,
+      "mae_inr": 342746.89,
+      "mae_lpa": 3.43
+    },
+    "Product & Project Management": {
+      "sample_count": 44,
+      "mae_inr": 603281.97,
+      "mae_lpa": 6.03
+    },
+    "Quality Assurance": {
+      "sample_count": 63,
+      "mae_inr": 311376.37,
+      "mae_lpa": 3.11
+    },
+    "Sales & Business Development": {
+      "sample_count": 1256,
+      "mae_inr": 164806.2,
+      "mae_lpa": 1.65
+    },
+    "Software Engineering": {
+      "sample_count": 1027,
+      "mae_inr": 364054.35,
+      "mae_lpa": 3.64
+    }
+  }
+}

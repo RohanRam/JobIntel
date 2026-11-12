@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-11-11T19:29:09Z",
+  "status": "healthy",
+  "raw_dataset": {
+    "path": "indian_job_market.csv",
+    "sha256": "240665f34067c2d94ca6e8e8c65c89be9547a10a54a8555eadd27e1198c40c49",
+    "size_bytes": 83260105,
+    "total_ingested_rows": 174496
+  },
+  "processed_dataset": {
+    "clean_retained_rows": 84842,
+    "rejected_or_duplicate_rows": 89654,
+    "retention_rate_pct": 48.62,
+    "salary_disclosed_rows": 31900,
+    "salary_disclosure_rate_pct": 37.6,
+    "feature_missingness_pct": {
+      "experience_years": 0.64,
+      "city": 0.0,
+      "work_mode": 0.0,
+      "role_family": 0.0,
+      "company_name": 0.0
+    },
+    "role_distribution_pct": {
+      "Other": 31.45,
+      "Software Engineering": 22.88,
+      "Sales & Business Development": 13.57,
+      "Human Resources": 5.37,
+      "Operations & Support": 4.75,
+      "Data Analytics": 4.48,
+      "Consulting & Business Advisory": 3.84,
+      "Finance & Accounting": 3.71
+    }
+  },
+  "model_monitoring": {
+    "model_path": "salary_model.joblib",
+    "model_type": "TransformedTargetRegressor",
+    "features_evaluated": [],
+    "inference_latency": {
+      "p50_ms": 10.37,
+      "p95_ms": 14.67,
+      "p99_ms": 20.9,
+      "mean_ms": 11.7
+    },
+    "latency_sla_met": true
+  }
+}
