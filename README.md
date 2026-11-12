@@ -1,74 +1,122 @@
-# AI Job Market Analytics & Salary Prediction System
+<div align="center">
 
-An end-to-end data science and machine learning application that converts Indian job-posting data into labour-market intelligence and compensation estimates.
+<img src="./frontend/public/logo-full.png" alt="Job Intel AI" width="240" />
 
-Built with **Python + Flask**, **scikit-learn**, **React + Vite + TypeScript**, and **Recharts**.
+# JobIntel AI — Indian Tech Market & Salary Analytics
+
+**A production-grade Data Science & Machine Learning platform for Indian tech compensation forecasting, market skill intelligence, and personalized career gap benchmarking.**
+
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.1+-000000?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6+-F7931E?style=flat&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
+[![React 19](https://img.shields.io/badge/React-19.3+-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.3+-646CFF?style=flat&logo=vite&logoColor=white)](https://vite.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)](LICENSE)
+
+</div>
 
 ---
 
-## Architecture Overview
+## 📸 Application Previews & Screenshots
+
+### 1. Executive Market Intelligence Dashboard
+Comprehensive high-level analytics over the Indian tech hiring ecosystem. Features the **Market Velocity** indicator (37.6% salary disclosure rate), cross-category benchmarks (Engineering vs. Data & AI vs. Management), and the **AI Radar Preview**.
+
+![Executive Dashboard Overview](./1.png)
+
+---
+
+### 2. Live Demand & Salary Trajectory Timeline
+Interactive timeline charting volume distribution, median CTC (₹ LPA), and live job counts across Indian role families, alongside hiring epicenters (Southern IT Belt vs. Western & NCR Belt) and the 7-bracket compensation equalizer.
+
+![Demand & Salary Trajectory](./2.png)
+
+---
+
+### 3. Supervised Salary Prediction Engine
+Machine learning inference powered by `HistGradientBoostingRegressor` with a logarithmic `log1p` target transformation. Evaluates role, continuous experience, city, work arrangement, and skills portfolio to estimate median compensation and empirical 80% confidence error intervals ($[-40.8\%, +72.8\%]$).
+
+![Salary Prediction Engine](./3.png)
+
+---
+
+### 4. Interactive Skill Gap Analyzer
+Personalized career benchmark computing a weighted market coverage percentage against active employer requirements. Features a real-time **`+ Add` simulator** on missing skills to instantly test how acquiring a skill boosts market readiness.
+
+![Skill Gap Analyzer](./4.png)
+
+---
+
+### 5. Methodology, Verification & Audit Report
+Full transparency report featuring the supervised model benchmark comparison (Baseline vs. Ridge vs. HistGB), data cleaning audit (97,929 raw postings $\rightarrow$ 84,842 clean records), and strict target leakage prevention policies.
+
+![Methodology & Audit](./5.png)
+
+---
+
+## 🏛️ System Architecture
 
 ```
-Indian job postings CSV (97,929 rows)
+Indian Job Postings Dataset (97,929 raw records)
         │
         ▼
-Data Ingestion & Schema Audit (inspect_dataset.py)
+Data Ingestion & Integrity Validation (scripts/inspect_dataset.py)
         │
         ▼
-Validation & Data Quality Report (data_quality_report.json)
-        │
-        ▼
-Cleaning & Normalization (run_pipeline.py)
-        ├──► jobs_clean.parquet (84,842 retained records)
-        ├──► job_skills.parquet (751,404 relations, 43,465 canonical skills)
+Cleaning & Normalization Pipeline (scripts/run_pipeline.py)
+        ├──► jobs_clean.parquet (84,842 clean records retained)
+        ├──► job_skills.parquet (751,404 skill pairs, 43,465 canonical skills)
         └──► job_market.db (SQLite database with indexed relations)
         │
         ├──────────────────────────────┬──────────────────────────────┐
         ▼                              ▼                              ▼
 Analytics Service              Offline ML Training            Skill Gap Engine
-(Aggregations & Filters)      (HistGradientBoosting)       (Prevalence & Co-occurrence)
+(Aggregations & Filters)      (HistGradientBoosting)       (Weighted Prevalence)
         │                              │                              │
         └──────────────────────────────┴──────────────────────────────┘
                                        │
                                        ▼
                               Flask REST API (Port 5000)
                                        │
-                                       ▼ HTTP/JSON
-                              React + Vite Frontend (Port 5173)
+                                       ▼ HTTP/JSON Proxy
+                              React 19 + Vite Frontend (Port 5173)
 ```
 
 ---
 
-## Key Features
+## 🚀 Key Modules & Capabilities
 
-1. **Market Intelligence Dashboard**:
-   - 84,842 clean, deduplicated job postings from the Indian job market snapshot.
-   - Dynamic cross-filtering by role family, city, and experience level.
-   - Visual distribution of disclosed annual salary brackets (LPA) and experience bands.
-   - Geographic demand ranking across Indian metro hubs (Bengaluru, Delhi-NCR, Mumbai, Pune, Hyderabad, etc.).
-2. **Salary Prediction Engine**:
-   - Supervised regression using `HistGradientBoostingRegressor` wrapped with `TransformedTargetRegressor(func=log1p)`.
-   - Input profile: Role family, experience in years, location, work arrangement, and canonical skills.
-   - Outputs annual INR compensation, LPA breakdown, and an empirical **80% prediction interval** (`[lower, upper]`).
-   - Contextual comparison with role and city median benchmarks.
-3. **Skill Intelligence & Gap Analyzer**:
-   - Extraction of 43,465 canonical skill entities across roles.
-   - Frequency-based skill recommendation ranking.
-   - Weighted Skill Coverage Score (%) benchmarking user skills against market demand.
-   - High, Medium, and Low priority skill acquisition suggestions.
-   - Skill co-occurrence discovery pairs.
-4. **Live Job Explorer**:
-   - Full-text search across job titles and employers.
-   - Paginated listings with parsed salary bounds, required experience, work mode, and ratings.
-   - Multi-parameter sorting and filtering.
-5. **Methodology & Model Card**:
-   - Transparent evaluation report detailing held-out test performance and bias disclosures.
+### 1. 💰 Supervised Salary Prediction (`/salary-predictor`)
+- **Production Algorithm**: `HistGradientBoostingRegressor` with `TransformedTargetRegressor(func=np.log1p, inverse_func=np.expm1)`.
+- **Inputs**: Role Family, Experience Slider (0–30 yrs), City (Bengaluru, Hyderabad, Mumbai, etc.), Work Mode (In-Office, Hybrid, Remote), Skills tag builder.
+- **Calibrated 80% Error Bounds**: Non-negative prediction intervals calculated via empirical residual quantiles (`[-40.8%, +72.8%]`).
+- **Quick Scenarios**: One-click presets for Junior SDE, Mid Data Scientist, Senior DevOps, and Analytics Lead.
+
+### 2. ⚡ Best Skills to Have (`/skills`)
+- **Domain Breakdown**: Filters rankings by target technical role family.
+- **Segmentation**:
+  - **Core Foundation (>25% prevalence)**: Mandatory baseline skills.
+  - **Specialist Multipliers (<25% prevalence)**: High-yield compensation boosters.
+- **Co-Occurrence Mining**: Uncovers technology pairs frequently required together in Indian job postings (e.g. *Python + SQL*, *Docker + Kubernetes*).
+
+### 3. 🎯 Skill Gap Analyzer (`/skill-gap`)
+- **Weighted Coverage Score**: Computes alignment percentage against live market demand.
+- **5 Career Transition Presets**: Data Science Aspirant, Junior SDE, DevOps & Cloud, BI Analyst, Full-Stack Transition.
+- **Interactive "+ Add" Simulator**: Click `+ Add` on any missing skill to immediately re-evaluate coverage.
+- **Bridge to Salary Predictor**: Direct CTA to project compensation using your updated profile.
+
+### 4. 📊 Executive Dashboard (`/`)
+- Multi-dimensional filter capsule bar (Role Family, City, Seniority).
+- Interactive Demand & Salary Trajectory timeline.
+- Regional hiring epicenters (Southern IT Belt vs. Western & NCR Belt).
+- Annual compensation spectrum equalizer across 7 brackets.
 
 ---
 
-## Model Performance Benchmark (Held-out 20% Test Set)
+## 📊 Supervised Model Benchmarks (Held-out 20% Test Set)
 
-| Model Architecture | Test MAE (LPA) | Median Abs Error (LPA) | RMSE (LPA) | R² Score | Status |
+| Model Architecture | Test MAE (LPA) | Median Abs Error (LPA) | RMSE (LPA) | $R^2$ Score | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Median Baseline (Dummy)** | ₹4.82 LPA | ₹2.25 LPA | ₹9.55 LPA | 0.0000 | Baseline |
 | **Ridge Regression (Linear + L2)** | ₹3.15 LPA | ₹1.32 LPA | ₹7.92 LPA | 0.3120 | Linear Model |
@@ -80,136 +128,75 @@ Analytics Service              Offline ML Training            Skill Gap Engine
 
 ---
 
-## Repository Structure
+## ⚡ Quickstart Guide
 
-```
-├── README.md
-├── docker-compose.yml
-├── .gitignore
-├── .env.example
-├── backend/
-│   ├── config.py
-│   ├── run.py
-│   ├── requirements.txt
-│   ├── pytest.ini
-│   ├── Dockerfile
-│   ├── data/
-│   │   ├── raw/
-│   │   │   └── indian_job_market.csv
-│   │   └── processed/
-│   │       ├── jobs_clean.parquet
-│   │       ├── job_skills.parquet
-│   │       ├── job_market.db
-│   │       └── data_quality_report.json
-│   ├── artifacts/
-│   │   ├── salary_model.joblib
-│   │   ├── model_metadata.json
-│   │   └── evaluation_report.json
-│   ├── scripts/
-│   │   ├── inspect_dataset.py
-│   │   ├── run_pipeline.py
-│   │   ├── train_salary_model.py
-│   │   └── evaluate_model.py
-│   ├── notebooks/
-│   │   ├── 01_data_audit.ipynb
-│   │   ├── 02_cleaning_and_eda.ipynb
-│   │   ├── 03_salary_modeling.ipynb
-│   │   └── 04_skill_analysis.ipynb
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── extensions.py
-│   │   ├── api/ (health, analytics, predictions, skills, jobs)
-│   │   ├── services/ (analytics_service, prediction_service, recommendation_service, job_service)
-│   │   ├── models/ (database_models)
-│   │   └── utils/ (errors, pagination)
-│   └── tests/ (test_data_pipeline, test_prediction_service, test_recommendations, test_api)
-└── frontend/
-    ├── package.json
-    ├── vite.config.ts
-    ├── Dockerfile
-    └── src/
-        ├── App.tsx
-        ├── main.tsx
-        ├── index.css
-        ├── api/ (analytics, predictions, skills, jobs, client)
-        ├── components/ (layout, cards, common)
-        └── pages/ (DashboardPage, SalaryPredictorPage, SkillsPage, SkillGapPage, JobExplorerPage, AboutPage)
-```
+### Option 1: One-Click Launchers (Recommended on Windows)
+
+- **Command Prompt / File Explorer**: Double-click [`start.bat`](./start.bat).
+- **PowerShell**: Run [`.\start.ps1`](./start.ps1).
+
+This opens both backend and frontend servers in separate terminal sessions.
 
 ---
 
-## Quickstart Guide (Local Windows Environment)
+### Option 2: Manual Terminal Launch
 
-### Prerequisites
-- Python 3.11+
-- Node.js LTS (v20+) & npm
-
-### 1. Backend Setup & Pipeline Execution
-
+#### Terminal 1 — Backend (Flask API on Port 5000)
 ```powershell
-cd backend
-
-# Create and activate virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Inspect raw dataset
-python scripts/inspect_dataset.py
-
-# Run cleaning & normalization pipeline
-python scripts/run_pipeline.py
-
-# Train the ML salary regression model
-python scripts/train_salary_model.py
-
-# Run evaluation & test suite
-python scripts/evaluate_model.py
-pytest
+cd D:\0\DataScience
+.\backend\.venv\Scripts\python.exe backend\run.py
 ```
 
-### 2. Start the Backend API
-
+#### Terminal 2 — Frontend (React + Vite on Port 5173)
 ```powershell
-python run.py
-```
-*API will start on `http://127.0.0.1:5000/api`*
-
-### 3. Start the React Frontend
-
-In a new terminal window:
-```powershell
-cd frontend
-npm install
+cd D:\0\DataScience\frontend
 npm run dev
 ```
-*Frontend will be live at `http://localhost:5173`*
+
+Open your browser at: **`http://localhost:5173/`**
 
 ---
 
-## API Documentation
+## 🧪 Running Automated Tests
 
-- `GET /api/health` - Service and model health status
-- `GET /api/analytics/summary` - Aggregate metrics (postings, salary median, disclosure rate)
-- `GET /api/analytics/roles` - Role demand breakdown and volume
-- `GET /api/analytics/locations` - City and state distribution
-- `GET /api/analytics/salaries` - Disclosed salary brackets (LPA)
-- `GET /api/analytics/experience` - Seniority band breakdown
-- `GET /api/analytics/skills` - Top canonical skills and prevalence
-- `GET /api/analytics/filter-options` - Filter dropdown options
-- `POST /api/predictions/salary` - Predict salary for candidate profile
-- `GET /api/predictions/metadata` - Active model metadata & metrics
-- `POST /api/skills/recommend` - Skill-gap analysis and prioritized missing skills
-- `GET /api/jobs` - Paginated job listings with multi-filter queries
-- `GET /api/jobs/<job_id>` - Single job posting details
+- **Backend Pytest Suite (20 tests)**:
+  ```powershell
+  cd D:\0\DataScience
+  .\backend\.venv\Scripts\python.exe -m pytest backend\tests
+  ```
+- **Frontend Vitest Suite (Unit tests)**:
+  ```powershell
+  cd D:\0\DataScience\frontend
+  npm test
+  ```
+- **Production Build Verification**:
+  ```powershell
+  cd D:\0\DataScience\frontend
+  npm run build
+  ```
 
 ---
 
-## Responsible Use & Limitations
+## 📡 REST API Documentation
 
-1. **Statistical Estimate**: Predictions reflect patterns in the salary-disclosed subset (~37.6% of records) of the Indian job market snapshot. They are intended for career exploration and are not guaranteed salary benchmarks.
-2. **Disclosure Selection Bias**: Companies that disclose pay ranges publicly on job portals may differ in compensation strategy from organizations that negotiate privately.
-3. **Skill Overlap Score**: Coverage metrics measure alignment with observed posting mentions; they do not evaluate personal proficiency or guarantee interview shortlisting.
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/health` | `GET` | Service status, model readiness, and dataset row count |
+| `/api/analytics/summary` | `GET` | Aggregate stats (total postings, unique companies, median pay) |
+| `/api/analytics/roles` | `GET` | Role family volume and median salary breakdown |
+| `/api/analytics/locations` | `GET` | City- and state-level hiring distribution |
+| `/api/analytics/salaries` | `GET` | Volume distribution across 7 salary brackets (LPA) |
+| `/api/analytics/experience` | `GET` | Postings breakdown across experience seniority bands |
+| `/api/analytics/skills` | `GET` | Ranked technical competencies with frequency and prevalence |
+| `/api/analytics/filter-options` | `GET` | Available filter values for roles, cities, and experience |
+| `/api/predictions/salary` | `POST` | Predict expected annual salary with 80% confidence interval |
+| `/api/predictions/metadata` | `GET` | Model hyperparameters, training date, and validation metrics |
+| `/api/skills/recommend` | `POST` | Skill gap analysis, coverage score %, and prioritized gaps |
 
+---
+
+## ⚖️ Responsible Use & Limitations
+
+1. **Statistical Guidance**: Salary predictions represent estimated statistical distributions based on verified historical postings; they do not constitute guaranteed compensation offers.
+2. **Disclosure Selection Bias**: Employers that publicly disclose compensation ranges may differ in size or compensation structure from those that negotiate privately.
+3. **Skill Gap Score**: Market coverage reflects alignment with skills frequently cited in active job descriptions, not a measure of individual proficiency.
